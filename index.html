@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://storage.googleapis.com/assets.meld.cx/agent/1.0.18/Agent.js"></script>
+    <script src="index.js"></script>
+</head>
+<body>
+    <m-camera-barcode-scanner width="800" height="600"></m-camera-barcode-scanner>
+    <script>
+        const reader = document.querySelector('m-camera-barcode-scanner');
+        reader.addEventListener('result', ({data}) => console.info(data));
+    </script>
+</body>
+</html>
