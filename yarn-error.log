@@ -1,0 +1,54 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.12.3/libexec/bin/yarn.js add @meldcx/matrix-component-barcode-scanner
+
+PATH: 
+  /opt/intel//openvino_2019.1.144/deployment_tools/model_optimizer:/usr/local/opt/mysql@5.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/intel//openvino_2019.1.144/deployment_tools/model_optimizer:/Users/jacob/Downloads/google-cloud-sdk/bin:/usr/local/opt/mysql@5.7/bin
+
+Yarn version: 
+  1.12.3
+
+Node version: 
+  11.9.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@meldcx%2fmatrix-component-barcode-scanner: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:65894:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:129018:22)
+      at Request.emit (events.js:197:13)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:129990:10)
+      at Request.emit (events.js:197:13)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:129912:12)
+      at Object.onceWrapper (events.js:285:13)
+      at IncomingMessage.emit (events.js:202:15)
+      at endReadableNT (_stream_readable.js:1129:12)
+      at processTicksAndRejections (internal/process/next_tick.js:76:17)
+
+npm manifest: 
+  {
+    "name": "matrix-component-camera-barcode-scanner-example",
+    "version": "1.0.0",
+    "description": "## Getting started",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/MeldCX/matrix-component-camera-barcode-scanner-example.git"
+    },
+    "author": "MeldCX",
+    "license": "Copyright MeldCX Pty Ltd",
+    "bugs": {
+      "url": "https://github.com/MeldCX/matrix-component-camera-barcode-scanner-example/issues"
+    },
+    "homepage": "https://github.com/MeldCX/matrix-component-camera-barcode-scanner-example#readme"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

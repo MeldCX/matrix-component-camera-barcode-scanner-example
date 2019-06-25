@@ -1,0 +1,22 @@
+{
+  "name": "matrix-component-camera-barcode-scanner-example",
+  "version": "1.0.0",
+  "description": "## Getting started",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MeldCX/matrix-component-camera-barcode-scanner-example.git"
+  },
+  "author": "MeldCX",
+  "license": "Copyright MeldCX Pty Ltd",
+  "bugs": {
+    "url": "https://github.com/MeldCX/matrix-component-camera-barcode-scanner-example/issues"
+  },
+  "homepage": "https://github.com/MeldCX/matrix-component-camera-barcode-scanner-example#readme",
+  "dependencies": {
+    "@meldcx/matrix-component-camera-barcode-scanner": "^1.0.1"
+  }
+}

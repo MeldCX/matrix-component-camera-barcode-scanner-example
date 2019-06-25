@@ -9,10 +9,16 @@
     <script src="node_modules/@meldcx/matrix-component-camera-barcode-scanner/dist/index.js"></script>
 </head>
 <body>
+    <h1>QR Code Data:</h1>
+    <h2 class="barcode">Barcode</h2>
     <m-camera-barcode-scanner width="800" height="600"></m-camera-barcode-scanner>
     <script>
         const reader = document.querySelector('m-camera-barcode-scanner');
-        reader.addEventListener('result', ({data}) => console.info(data));
+        reader.addEventListener('result', ({data}) => {
+            console.info(data);
+
+            document.querySelector('.barcode').textContent = data.text;
+        });
     </script>
 </body>
 </html>
