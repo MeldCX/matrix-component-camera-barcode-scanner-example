@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/MeldCX/matrix-component-camera-barcode-scanner-example#readme",
   "dependencies": {
-    "@meldcx/matrix-component-camera-barcode-scanner": "^1.0.5"
+    "@meldcx/matrix-component-camera-barcode-scanner": "^1.0.7"
   }
 }
