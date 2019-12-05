@@ -15,16 +15,18 @@
 1. Add the `m-camera-barcode-scanner` component to your html page, `<m-camera-barcode-scanner width="800" height="600"></m-camera-barcode-scanner>`
 2. Using the `document.querySelector` function, locate the element and store it as an object `const reader = document.querySelector('m-camera-barcode-scanner');`
 3. Listen for Barcode events, `reader.addEventListener('result', ({data}) => console.info(data));`
-4. Pause/Play functionality is outlined in the Matrix Camera Barcode Scanner example application, using the function available in index.html e.g. <br/>
-`document.querySelector('#play-pause');`<br/>
-` button.addEventListener('click', () => { `<br />`
-        if (reader.stop) {`<br />`
-          reader.play();`<br />`
-          button.textContent = 'Pause';`<br />`
-        } else {`<br />`
-          reader.pause();`<br />`
-          button.textContent = 'Play';`<br />`
+4. Pause/Play functionality is outlined in the Matrix Camera Barcode Scanner example application, using the function available in index.html e.g.
+```
+    document.querySelector('#play-pause');
+    button.addEventListener('click', () => {
+        if (reader.stop) {
+          reader.play();
+          button.textContent = 'Pause';
+        } else {
+          reader.pause();
+          button.textContent = 'Play';
         }
-      });`<br />
- A button will be displayed once camera is allowed on device. Press pause to stop the video. Once video has stopped, press play and allow access to the camera again. The video will resume playing.
+    });
+ ```
+A button will be displayed once camera is allowed on device. Press pause to stop the video. Once video has stopped, press play and allow access to the camera again. The video will resume playing.
 
