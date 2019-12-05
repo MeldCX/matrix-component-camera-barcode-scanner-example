@@ -1,24 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <script src="https://storage.googleapis.com/assets.meld.cx/agent/1.0.18/Agent.js"></script>
     <script src="node_modules/@meldcx/matrix-component-camera-barcode-scanner/dist/index.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>QR Code Data:</h1>
     <h2 class="barcode">Barcode</h2>
-    <m-camera-barcode-scanner width="800" height="600"></m-camera-barcode-scanner>
+    <m-camera-barcode-scanner
+      width="800"
+      height="600"
+    ></m-camera-barcode-scanner>
+    <button id="play-pause">Pause</button>
     <script>
-        const reader = document.querySelector('m-camera-barcode-scanner');
-        reader.addEventListener('result', ({data}) => {
-            console.info(data);
+      const reader = document.querySelector('m-camera-barcode-scanner');
+      const button = document.querySelector('#play-pause');
+      button.addEventListener('click', () => {
+        if (reader.stop) {
+          reader.play();
+          button.textContent = 'Pause';
+        } else {
+          reader.pause();
+          button.textContent = 'Play';
+        }
+      });
+      reader.addEventListener('result', ({ data }) => {
+        console.info(data);
 
-            document.querySelector('.barcode').textContent = data.text;
-        });
+        document.querySelector('.barcode').textContent = data.text;
+      });
     </script>
-</body>
+  </body>
 </html>
