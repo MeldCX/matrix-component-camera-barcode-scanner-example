@@ -1,6 +1,6 @@
 {
   "name": "matrix-component-camera-barcode-scanner-example",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "## Getting started",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/MeldCX/matrix-component-camera-barcode-scanner-example#readme",
   "dependencies": {
-    "@meldcx/matrix-component-camera-barcode-scanner": "^1.0.7"
+    "@meldcx/matrix-component-camera-barcode-scanner": "^1.0.9"
   }
 }

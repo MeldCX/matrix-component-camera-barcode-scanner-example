@@ -13,9 +13,15 @@
 ## Listening for Barcodes
 
 1. Add the `m-camera-barcode-scanner` component to your html page, `<m-camera-barcode-scanner width="800" height="600"></m-camera-barcode-scanner>`
-2. Using the `document.querySelector` function, locate the element and store it as an object `const reader = document.querySelector('m-camera-barcode-scanner');`
-3. Listen for Barcode events, `reader.addEventListener('result', ({data}) => console.info(data));`
-4. Pause/Play functionality is outlined in the Matrix Camera Barcode Scanner example application, using the function available in index.html e.g.
+2. Additional attributes can be added to the `m-camera-barcode-scanner` component. See below for more information:
+    - example: `<m-camera-barcode-scanner width="800" height="600" resHeight="1920" resWidth="1080" qrHeight="300" qrWidth="300"></m-camera-barcode-scanner>`
+    - resHeight: max resolution height of the attached camera (in the example we use 1920)
+    - resWidth: max resolution width of the attached camera (in the example we use 1080)
+    - qrHeight: Height of the QR bounding box overlay, used to improve ease of use for QR scanning
+    - qrWidth: Width of the QR bounding box overlay, used to improve ease of use for QR scanning
+3. Using the `document.querySelector` function, locate the element and store it as an object `const reader = document.querySelector('m-camera-barcode-scanner');`
+4. Listen for Barcode events, `reader.addEventListener('result', ({data}) => console.info(data));`
+5. Pause/Play functionality is outlined in the Matrix Camera Barcode Scanner example application, using the function available in index.html e.g.
 ```
     document.querySelector('#play-pause');
     button.addEventListener('click', () => {
