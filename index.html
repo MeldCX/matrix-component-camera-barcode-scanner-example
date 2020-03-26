@@ -1,42 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <script src="https://storage.googleapis.com/assets.meld.cx/agent/1.0.18/Agent.js"></script>
-    <script src="node_modules/@meldcx/matrix-component-camera-barcode-scanner/dist/index.js"></script>
-  </head>
-  <body>
-    <h1>QR Code Data:</h1>
-    <h2 class="barcode">Barcode</h2>
-    <m-camera-barcode-scanner
-      width="800"
-      height="600"
-      resHeight="1920"
-      resWidth="1080"
-      qrHeight="300"
-      qrWidth="300"
-    ></m-camera-barcode-scanner>
-    <button id="play-pause">Pause</button>
-    <script>
-      const reader = document.querySelector('m-camera-barcode-scanner');
-      const button = document.querySelector('#play-pause');
-      button.addEventListener('click', () => {
-        if (reader.stop) {
-          reader.play();
-          button.textContent = 'Pause';
-        } else {
-          reader.pause();
-          button.textContent = 'Play';
-        }
-      });
-      reader.addEventListener('result', ({ data }) => {
-        console.info(data);
 
-        document.querySelector('.barcode').textContent = data.text;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <script src="https://storage.googleapis.com/assets.meld.cx/agent/1.0.41/Agent.js"></script>
+  <script src="node_modules/@meldcx/matrix-component-camera-barcode-scanner/dist/index.js"></script>
+</head>
+
+<body>
+  <h1>QR Code Data:</h1>
+  <h2 class="barcode">Barcode</h2>
+  <div id="test" style="width: 100vw">
+    <div id="circle">
+      <div id="inner"></div>
+    </div>
+    <h1 id="apparent-time">Apparent Time Elapsed: 0 sec</h2>
+      <h1 id="actual-time">Actual Time Elapsed: 0 sec</h2>
+        <h2 id="state">Not Streaming</h3>
+  </div>
+  <div id="buttons">
+    <button id="play-button">Start Playing</button></br>
+    <button id="scan-button">Start Scanning</button></br>
+    <button id="getqr-button">reader.getQRCode()</button></br>
+    <button id="guide-button">toggle border</button></br>
+    <button id="idle-button">idle camera</button></br>
+    <br />
+    <button id="force-button">Force Actions</button></br>
+    <button id="test-button">start test</button></br>
+  </div>
+  <hr />
+  <m-camera-barcode-scanner style="width: 800px; height: 600px;" auto-start='scan' width="800" height="600" guide
+    guide-size="300" frame-rate="60"></m-camera-barcode-scanner>
+  <hr />
+  <div>
+    <dl>
+      <h3>Events</h3>
+      <dt>result</dt>
+      <dd>emits on every requested animation frame where a valid barcode is found</dd>
+      <dt>play</dt>
+      <dd>emits when the camera stream is activated. Called with reader.play()</dd>
+      <dt>pause</dt>
+      <dd>emits when the camera stream is stopped. Called with reader.pause()</dd>
+      <dt>scanStart</dt>
+      <dd>emits when the scanning is started. Called with reader.startScanning()</dd>
+      <dt>scanStop</dt>
+      <dd>emits when the scanning is stopped. Called with reader.stopScanning()</dd>
+    </dl>
+
+    <dl>
+      <h3>Methods</h3>
+      <dt>getTrackLabels()</dt>
+      <dd>returns array of video device names</dd>
+      <dd>throws NotInitialised if used before play() has been called at least once</dd>
+      <dt>setTrack(trackIndex: number)</dt>
+      <dd>Sets the default track to the index specified and updates the video stream accordingly</dd>
+      <dd>throws NotInitialised if used before play() has been called at least once</dd>
+      <dd>throws InvalidTrack if trackIndex is < 0 or> the number of available tracks</dd>
+      <dt>pause()</dt>
+      <dd>stops streaming the camera</dd>
+      <dt>play(optional: trackIndex)</dt>
+      <dd>starts streaming the camera. This method initialises the camera trigger a request for camera permissions
+      </dd>
+      <dd>The video track used will be trackIndex || the value set with setDefaultTrack() || 0</dd>
+      <dt>stopScanning()</dt>
+      <dd>stops scanning for barcode and hide the guide</dd>
+      <dt>startScanning(force?: boolean)</dt>
+      <dd>start scanning for barcode and show guide (if configured to show).</dd>
+      <dd>force - forces camera to start streaming</dd>
+      <dt>getQRCode(force)</dt>
+      <dd>returns a promise the resolves to the first valid barcode. The promise is rejected if scanning is
+        stopped before a result was found</dd>
+    </dl>
+
+    <dl>
+      <h3>Element Attributes</h3>
+      <dt>idle-camera</dt>
+      <dd>when 'idle-camera' is present, pause keeps the camera in use but stops streaming. Without it, pause stops the camera feed, freeing it up to be used by other applications.</dd>
+      <dt>auto-start</dt>
+      <dd>triggers request for camera permissions once the element is mounted</dd>
+      <dd>play - triggers request and starts streaming the first video track it finds</dd>
+      <dd>scan - same as above, plus starts scanning</dd>
+      <dt>width</dt>
+      <dd>the width of the element. Also used to <a
+          href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
+        (default: 1280)</dd>
+      <dt>height</dt>
+      <dd>the height of the element. Also used to <a
+          href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
+        (default: 720)</dd>
+      <dt>frame-rate</dt>
+      <dd>the frame rate used in <a
+          href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
+        (default: 30)</dd>
+      <dt>guide</dt>
+      <dd>if not null the guides will be shown when scanning is active (default: null - ie. not shown)</dd>
+      <dt>guide-size</dt>
+      <dd>the size of the guide in pixels (default: 50% of the smallest dimension (height, width)</dd>
+      <dt>guide-valid-color</dt>
+      <dd>the color the guide will be when a qr code is being scanned succesfully (default: #2BCC61)</dd>
+      <dt>guide-invalid-color</dt>
+      <dd>the default color of the guide when shown (default: #FF424)</dd>
+    </dl>
+  </div>
+
+  <style>
+    #circle {
+      display: inline-block;
+      border-radius: 50%;
+      background-color: rgb(0, 0, 0);
+      height: 100px;
+      width: 100px;
+    }
+
+    #inner {
+      border-radius: 50%;
+      background-color: rgb(0, 255, 34);
+      height: 100%;
+      width: 100%;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: ease-in-out 0.9s transform;
+    }
+  </style>
+
+  <script>
+    const reader = document.querySelector('m-camera-barcode-scanner');
+
+    let startTime;
+    let secondsElapsed = 0;
+    let forceActions = true;
+    let testing = false;
+    let testingTimeout;
+    let latestQRCode = undefined;
+
+    const playButton = document.querySelector('#play-button');
+    const scanButton = document.querySelector('#scan-button');
+    const forceButton = document.querySelector('#force-button');
+    const getQRButton = document.querySelector('#getqr-button');
+    const testButton = document.querySelector('#test-button');
+    const guideButton = document.querySelector('#guide-button');
+    const idleButton = document.querySelector('#idle-button');
+    const breather = document.querySelector('#inner');
+
+    const actualTimer = document.querySelector('#actual-time');
+    const apparentTimer = document.querySelector('#apparent-time');
+    const stateHeader = document.querySelector('#state');
+
+    updateButtons();
+
+    if (reader.getAttribute('idle-camera') === null) {
+      idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
+    } else {
+      idleButton.textContent = 'toggle camera idle (current: idle)';
+    }
+
+    playButton.addEventListener('click', async () => {
+      if (reader.playing) {
+        reader.pause();
+      } else {
+        await reader.play();
+      }
+      updateButtons();
+    });
+
+    scanButton.addEventListener('click', async () => {
+      if (reader.scanning) {
+        reader.stopScanning();
+      } else {
+        await reader.startScanning(forceActions);
+      }
+      updateButtons();
+    });
+
+    getQRButton.addEventListener('click', () => {
+      latestQRCode = null;
+      updateButtons();
+      reader.getQRCode(forceActions).then((result) => {
+        latestQRCode = result.data.text;
+        updateButtons();
+      }).catch((e) => {
+        console.error(e);
+        latestQRCode = undefined;
+        updateButtons();
       });
-    </script>
-  </body>
+    });
+
+    guideButton.addEventListener('click', () => {
+      const current = reader.getAttribute('guide');
+      if (current === '' || current === 'true') {
+        reader.setAttribute('guide', 'false');
+      } else {
+        reader.setAttribute('guide', 'true');
+      }
+    });
+
+    idleButton.addEventListener('click', () => {
+      if (reader.getAttribute('idle-camera') === null) {
+        reader.setAttribute('idle-camera', '');
+        idleButton.textContent = 'toggle camera idle (current: idle)';
+      } else {
+        reader.removeAttribute('idle-camera');
+        idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
+      }
+    });
+
+    testButton.addEventListener('click', () => {
+      let count = 0;
+      startTime = Date.now();
+      testing = !testing;
+
+      if (testing) {
+        function doCount() {
+          testingTimeout = setTimeout(doCount, 1000);
+
+          breather.style.transform = `translate(-50%, -50%) scale(${count % 2})`;
+          updateTimers();
+
+          if (count === 15) {
+            count = 0;
+            toggleTest();
+          }
+
+          count++;
+          secondsElapsed++;
+          testButton.textContent = `stop test - ${count}`;
+        }
+
+        doCount();
+      } else {
+        clearTimeout(testingTimeout);
+        testButton.textContent = `start test`;
+      }
+
+    });
+
+    forceButton.addEventListener('click', () => {
+      forceActions = !forceActions;
+      if (forceActions) {
+        forceButton.textContent = 'Don\'t Force Actions';
+      } else {
+        forceButton.textContent = 'Force Actions';
+      }
+      updateButtons();
+    });
+
+    reader.addEventListener('pause', updateButtons);
+    reader.addEventListener('play', updateButtons);
+    reader.addEventListener('scanStop', updateButtons);
+    reader.addEventListener('scanStart', updateButtons);
+    reader.addEventListener('result', ({ data }) => {
+      console.info(data);
+      document.querySelector('.barcode').textContent = data.text;
+    });
+
+    function updateButtons() {
+      const { playing, scanning } = reader;
+      playButton.textContent = playing ? `reader.pause()` : `reader.play()`;
+      scanButton.textContent = scanning ? `reader.stopScanning(${forceActions})` : `reader.startScanning(${forceActions})`;
+      forceButton.textContent = forceActions ? 'Don\'t Force Actions' : 'Force Actions';
+
+      switch (latestQRCode) {
+        case undefined:
+          getQRButton.textContent = `reader.getQRCode(${forceActions})`;
+          break;
+        case null:
+          getQRButton.textContent = `reader.getQRCode(${forceActions}) - pending`;
+          break;
+        default:
+          getQRButton.textContent = `reader.getQRCode(${forceActions}) - ${latestQRCode}`;
+          break;
+      }
+
+    }
+
+    function updateTimers() {
+      const measuredTime = new Date(null);
+      measuredTime.setSeconds(secondsElapsed);
+      let MHSTime = measuredTime.toISOString().substr(11, 8);
+      apparentTimer.textContent = `Apparent Time Elapsed: ${MHSTime}`;
+
+      const formattedDiff = new Date();
+      formattedDiff.setTime((Date.now() - startTime));
+      MHSTime = formattedDiff.toISOString().substr(11, 8);
+      actualTimer.textContent = `Actual Time Elapsed: ${MHSTime}`;
+    }
+
+    async function toggleTest() {
+      if (reader.scanning) {
+        reader.pause();
+        stateHeader.textContent = 'Not Streaming';
+      } else {
+        reader.startScanning(true);
+        stateHeader.textContent = 'Streaming';
+      }
+    }
+
+  </script>
+</body>
+
 </html>
