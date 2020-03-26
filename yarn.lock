@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@meldcx/matrix-component-camera-barcode-scanner@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@meldcx/matrix-component-camera-barcode-scanner/-/matrix-component-camera-barcode-scanner-1.0.9.tgz#24ffc18add525f27b4db536ffe1d98e312cfbfdd"
-  integrity sha512-aElVosTuhy7YXktSibN4TAihYuaTNeGuKSQ4piuTuIvs7M6cIhDbHeO3FAKTs5S3z/520MmEaONZYQz3otBP5w==
+"@meldcx/matrix-component-camera-barcode-scanner@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@meldcx/matrix-component-camera-barcode-scanner/-/matrix-component-camera-barcode-scanner-1.0.10.tgz#b0a4c8c675be567e268a8fb59c5720d76a63130f"
+  integrity sha512-qgARsI4VYhIWOBPmTVADjZ4PjSp+ZjGcifX1KjOzSVMcy8oo8EudqHVezInNEqzWhXJBiOjT+MyoZhlHQi978w==
   dependencies:
     "@zxing/library" "^0.14.2"
     instascan "^1.0.0"
