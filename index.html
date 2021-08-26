@@ -29,7 +29,18 @@
     <button id="idle-button">idle camera</button></br>
     <br />
     <button id="force-button">Force Actions</button></br>
-    <button id="test-button">start test</button></br>
+    <button id="test-button">start test</button></br><br>
+    
+    <button id="read-capabilities">Read Focus Details</button><br>
+    <label for="focusDistanceMin">focus Distance Minimum: </label>
+    <label id="focusDistanceMin" name="focusDistanceMin"></label><br>
+    <label for="focusDistanceMax">focus Distance Maximum: </label>
+    <label id="focusDistanceMax" name="focusDistanceMax"></label><br>
+    <label for="focusDistanceStep">focus Distance Step: </label>
+    <label id="focusDistanceStep" name="focusDistanceStep"></label><br>
+    <button id="set-distance">Set distance</button>
+    <input type="text" id="distance" name="distance"></br>    
+ 
   </div>
   <hr />
   <m-camera-barcode-scanner style="width: 800px; height: 600px; -webkit-transform: scaleX(-1); transform: scaleX(-1);" auto-start='scan' width="800" height="600" guide
@@ -147,6 +158,8 @@
     const idleButton = document.querySelector('#idle-button');
     const breather = document.querySelector('#inner');
 
+    const setDistance = document.querySelector('#set-distance');
+    const readCapabilities = document.querySelector('#read-capabilities');
     const actualTimer = document.querySelector('#actual-time');
     const apparentTimer = document.querySelector('#apparent-time');
     const stateHeader = document.querySelector('#state');
@@ -207,6 +220,18 @@
         reader.removeAttribute('idle-camera');
         idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
       }
+    });
+
+    setDistance.addEventListener('click', () => {
+        const dist = document.getElementById("distance").value;
+        reader.setDistance(dist);
+    });
+
+    readCapabilities.addEventListener('click', () => {
+        let data = reader.readCapabilities();
+        document.getElementById("focusDistanceMin").innerHTML = data.focusDistanceMin;
+        document.getElementById("focusDistanceMax").innerHTML = data.focusDistanceMax;
+        document.getElementById("focusDistanceStep").innerHTML = data.focusDistanceStep;
     });
 
     testButton.addEventListener('click', () => {
