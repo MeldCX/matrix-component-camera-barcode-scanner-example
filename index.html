@@ -7,7 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Document</title>
   <script src="https://storage.googleapis.com/assets.meld.cx/agent/1.0.41/Agent.js"></script>
-  <script src="node_modules/@meldcx/matrix-component-camera-barcode-scanner/dist/index.js"></script>
+  <!-- <script src="node_modules/@meldcx/matrix-component-camera-barcode-scanner/dist/index.js"></script> -->
+  <script src="index.js"></script>
 </head>
 
 <body>
@@ -31,15 +32,63 @@
     <button id="force-button">Force Actions</button></br>
     <button id="test-button">start test</button></br><br>
     
-    <button id="read-capabilities">Read Focus Details</button><br>
+    <h2>Advanced Settings</h2>
+    <button id="read-capabilities">Read Advanced Settings</button><br>
     <label for="focusDistanceMin">focus Distance Minimum: </label>
     <label id="focusDistanceMin" name="focusDistanceMin"></label><br>
     <label for="focusDistanceMax">focus Distance Maximum: </label>
     <label id="focusDistanceMax" name="focusDistanceMax"></label><br>
     <label for="focusDistanceStep">focus Distance Step: </label>
     <label id="focusDistanceStep" name="focusDistanceStep"></label><br>
-    <button id="set-distance">Set distance</button>
-    <input type="text" id="distance" name="distance"></br>    
+    <label><b>Focus Distance: </b></label>
+    <input type="text" id="focusDistance" name="focusDistance"></br>
+    
+    <label for="exposureTimeMin">Exposure Time Minimum: </label>
+    <label id="exposureTimeMin" name="exposureTimeMin"></label><br>
+    <label for="exposureTimeMax">Exposure Time Maximum: </label>
+    <label id="exposureTimeMax" name="exposureTimeMax"></label><br>
+    <label for="exposureTimeStep">Exposure Time Step: </label>
+    <label id="exposureTimeStep" name="exposureTimeStep"></label><br>
+    <label><b>Exposure Time: </b></label>
+    <input type="text" id="exposureTime" name="exposureTime"></br>   
+    
+    <label for="saturationMin">Saturation Minimum: </label>
+    <label id="saturationMin" name="saturationMin"></label><br>
+    <label for="saturationMax">Saturation Maximum: </label>
+    <label id="saturationMax" name="saturationMax"></label><br>
+    <label for="saturationStep">Saturation Step: </label>
+    <label id="saturationStep" name="saturationStep"></label><br>
+    <label><b>Saturation: </b></label>
+    <input type="text" id="saturation" name="saturation"></br>       
+
+    <label for="sharpnessMin">Sharpness Minimum: </label>
+    <label id="sharpnessMin" name="sharpnessMin"></label><br>
+    <label for="sharpnessMax">Sharpness Maximum: </label>
+    <label id="sharpnessMax" name="sharpnessMax"></label><br>
+    <label for="sharpnessStep">Sharpness Step: </label>
+    <label id="sharpnessStep" name="sharpnessStep"></label><br>
+    <label><b>Sharpness: </b></label>
+    <input type="text" id="sharpness" name="sharpness"></br>
+    
+    <label for="brightnessMin">Brightness Minimum: </label>
+    <label id="brightnessMin" name="brightnessMin"></label><br>
+    <label for="brightnessMax">Brightness Maximum: </label>
+    <label id="brightnessMax" name="brightnessMax"></label><br>
+    <label for="brightnessStep">Brightness Step: </label>
+    <label id="brightnessStep" name="brightnessStep"></label><br>
+    <label><b>Brightness: </b></label>
+    <input type="text" id="brightness" name="brightness"></br>     
+
+    <label for="contrastMin">Contrast Minimum: </label>
+    <label id="contrastMin" name="contrastMin"></label><br>
+    <label for="contrastMax">Contrast Maximum: </label>
+    <label id="contrastMax" name="contrastMax"></label><br>
+    <label for="contrastStep">Contrast Step: </label>
+    <label id="contrastStep" name="contrastStep"></label><br>
+    <label><b>Contrast: </b></label>
+    <input type="text" id="contrast" name="contrast"></br>  
+ 
+    <button id="set-advanced-settings">Set Advanced Settings</button>
  
   </div>
   <hr />
@@ -158,7 +207,7 @@
     const idleButton = document.querySelector('#idle-button');
     const breather = document.querySelector('#inner');
 
-    const setDistance = document.querySelector('#set-distance');
+    const setAdvancedSettings = document.querySelector('#set-advanced-settings');
     const readCapabilities = document.querySelector('#read-capabilities');
     const actualTimer = document.querySelector('#actual-time');
     const apparentTimer = document.querySelector('#apparent-time');
@@ -222,17 +271,46 @@
       }
     });
 
-    setDistance.addEventListener('click', () => {
-        const dist = document.getElementById("distance").value;
-        reader.setDistance(dist);
-    });
+    setAdvancedSettings.addEventListener('click', () => {
+        const distance = document.getElementById("focusDistance").value;
+        const exposureTime = document.getElementById("exposureTime").value;
+        const saturation = document.getElementById("saturation").value;
+        const sharpness = document.getElementById("sharpness").value;
+        const brightness = document.getElementById("brightness").value;
+        const contrast = document.getElementById("contrast").value;        
+
+        reader.setAdvancedSettings(distance, exposureTime, saturation, sharpness, brightness, contrast);
+    });  
 
     readCapabilities.addEventListener('click', () => {
         let data = reader.readCapabilities();
         document.getElementById("focusDistanceMin").innerHTML = data.focusDistanceMin;
         document.getElementById("focusDistanceMax").innerHTML = data.focusDistanceMax;
         document.getElementById("focusDistanceStep").innerHTML = data.focusDistanceStep;
+        document.getElementById("exposureTimeMin").innerHTML = data.exposureTimeMin;
+        document.getElementById("exposureTimeMax").innerHTML = data.exposureTimeMax;
+        document.getElementById("exposureTimeStep").innerHTML = data.exposureTimeStep; 
+        document.getElementById("saturationMin").innerHTML = data.saturationMin;
+        document.getElementById("saturationMax").innerHTML = data.saturationMax;
+        document.getElementById("saturationStep").innerHTML = data.saturationStep;
+        document.getElementById("sharpnessMin").innerHTML = data.sharpnessMin;
+        document.getElementById("sharpnessMax").innerHTML = data.sharpnessMax;
+        document.getElementById("sharpnessStep").innerHTML = data.sharpnessStep;
+        document.getElementById("brightnessMin").innerHTML = data.brightnessMin;
+        document.getElementById("brightnessMax").innerHTML = data.brightnessMax;
+        document.getElementById("brightnessStep").innerHTML = data.brightnessStep;
+        document.getElementById("contrastMin").innerHTML = data.contrastMin;
+        document.getElementById("contrastMax").innerHTML = data.contrastMax;
+        document.getElementById("contrastStep").innerHTML = data.contrastStep;
+
+        document.getElementById("focusDistance").value = data.focusDistanceMin;
+        document.getElementById("exposureTime").value = data.exposureTimeMin;
+        document.getElementById("saturation").value = data.saturationMin;
+        document.getElementById("sharpness").value = data.sharpnessMin;
+        document.getElementById("brightness").value = data.brightnessMin;
+        document.getElementById("contrast").value = data.contrastMin; 
     });
+
 
     testButton.addEventListener('click', () => {
       let count = 0;
