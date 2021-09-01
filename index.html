@@ -87,7 +87,11 @@
     <label><b>Contrast: </b></label>
     <input type="text" id="contrast" name="contrast"></br>  
  
-    <button id="set-advanced-settings">Set Advanced Settings</button>
+    <button id="set-advanced-settings">Set Advanced Settings</button><br><br>
+    
+    <h2>Select Video Source</h2>
+    <label for="cameras">Choose a camera:</label>
+    <select id='selectCamera' style="width: 400px;"></select><br><br>    
  
   </div>
   <hr />
@@ -205,69 +209,69 @@
     const guideButton = document.querySelector('#guide-button');
     const idleButton = document.querySelector('#idle-button');
     const breather = document.querySelector('#inner');
+    const selectCamera = document.querySelector('#selectCamera');
 
     const setAdvancedSettings = document.querySelector('#set-advanced-settings');
     const readCapabilities = document.querySelector('#read-capabilities');
     const actualTimer = document.querySelector('#actual-time');
     const apparentTimer = document.querySelector('#apparent-time');
-    const stateHeader = document.querySelector('#state');
+    const stateHeader = document.querySelector('#state');            
 
     updateButtons();
 
     if (reader.getAttribute('idle-camera') === null) {
-      idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
+        idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
     } else {
-      idleButton.textContent = 'toggle camera idle (current: idle)';
+        idleButton.textContent = 'toggle camera idle (current: idle)';
     }
 
     playButton.addEventListener('click', async () => {
-      if (reader.playing) {
-        reader.pause();
-      } else {
-        await reader.play();
-      }
-      updateButtons();
+        if (reader.playing) {
+            reader.pause();
+        } else {
+            reader.play();
+        }
+        updateButtons();
     });
 
     scanButton.addEventListener('click', async () => {
-      if (reader.scanning) {
-        reader.stopScanning();
-      } else {
-        await reader.startScanning(forceActions);
-      }
-      updateButtons();
+        if (reader.scanning) {
+            reader.stopScanning();
+        } else {
+            reader.startScanning(forceActions);
+        }
+        updateButtons();
     });
 
-    getQRButton.addEventListener('click', () => {
-      latestQRCode = null;
-      updateButtons();
-      reader.getQRCode(forceActions).then((result) => {
-        latestQRCode = result.data.text;
+    getQRButton.addEventListener('click', async () => {
+        latestQRCode = null;
         updateButtons();
-      }).catch((e) => {
-        console.error(e);
-        latestQRCode = undefined;
-        updateButtons();
-      });
+        reader.getQRCode(forceActions).then(async (result) => {
+            latestQRCode = result.data.text;
+            updateButtons();
+        }).catch((e) => {
+            console.error(e);
+            latestQRCode = undefined;
+        });
     });
 
     guideButton.addEventListener('click', () => {
-      const current = reader.getAttribute('guide');
-      if (current === '' || current === 'true') {
-        reader.setAttribute('guide', 'false');
-      } else {
-        reader.setAttribute('guide', 'true');
-      }
+        const current = reader.getAttribute('guide');
+        if (current === '' || current === 'true') {
+            reader.setAttribute('guide', 'false');
+        } else {
+            reader.setAttribute('guide', 'true');
+        }
     });
 
     idleButton.addEventListener('click', () => {
-      if (reader.getAttribute('idle-camera') === null) {
-        reader.setAttribute('idle-camera', '');
-        idleButton.textContent = 'toggle camera idle (current: idle)';
-      } else {
-        reader.removeAttribute('idle-camera');
-        idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
-      }
+        if (reader.getAttribute('idle-camera') === null) {
+            reader.setAttribute('idle-camera', '');
+            idleButton.textContent = 'toggle camera idle (current: idle)';
+        } else {
+            reader.removeAttribute('idle-camera');
+            idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
+        }
     });
 
     setAdvancedSettings.addEventListener('click', () => {
@@ -312,94 +316,98 @@
 
 
     testButton.addEventListener('click', () => {
-      let count = 0;
-      startTime = Date.now();
-      testing = !testing;
+        let count = 0;
+        startTime = Date.now();
+        testing = !testing;
 
-      if (testing) {
-        function doCount() {
-          testingTimeout = setTimeout(doCount, 1000);
+        if (testing) {
+            function doCount() {
+                testingTimeout = setTimeout(doCount, 1000);
 
-          breather.style.transform = `translate(-50%, -50%) scale(${count % 2})`;
-          updateTimers();
+                breather.style.transform = `translate(-50%, -50%) scale(${count % 2})`;
+                updateTimers();
 
-          if (count === 15) {
-            count = 0;
-            toggleTest();
-          }
+                if (count === 15) {
+                    count = 0;
+                    toggleTest();
+                }
 
-          count++;
-          secondsElapsed++;
-          testButton.textContent = `stop test - ${count}`;
+                count++;
+                secondsElapsed++;
+                testButton.textContent = `stop test - ${count}`;
+            }
+
+            doCount();
+        } else {
+            clearTimeout(testingTimeout);
+            testButton.textContent = `start test`;
         }
 
-        doCount();
-      } else {
-        clearTimeout(testingTimeout);
-        testButton.textContent = `start test`;
-      }
-
     });
 
-    forceButton.addEventListener('click', () => {
-      forceActions = !forceActions;
-      if (forceActions) {
-        forceButton.textContent = 'Don\'t Force Actions';
-      } else {
-        forceButton.textContent = 'Force Actions';
-      }
-      updateButtons();
+    forceButton.addEventListener('click', async () => {
+        forceActions = !forceActions;
+        if (forceActions) {
+            forceButton.textContent = 'Don\'t Force Actions';
+        } else {
+            forceButton.textContent = 'Force Actions';
+        }
+        updateButtons();
     });
+    
+    selectCamera.addEventListener('change', async () => {
+        reader.selectCamera();
+    });    
 
     reader.addEventListener('pause', updateButtons);
     reader.addEventListener('play', updateButtons);
     reader.addEventListener('scanStop', updateButtons);
     reader.addEventListener('scanStart', updateButtons);
     reader.addEventListener('result', ({ data }) => {
-      console.info(data);
-      document.querySelector('.barcode').textContent = data.text;
+        console.info(data);
+        document.querySelector('.barcode').textContent = data.text;
     });
 
-    function updateButtons() {
-      const { playing, scanning } = reader;
-      playButton.textContent = playing ? `reader.pause()` : `reader.play()`;
-      scanButton.textContent = scanning ? `reader.stopScanning(${forceActions})` : `reader.startScanning(${forceActions})`;
-      forceButton.textContent = forceActions ? 'Don\'t Force Actions' : 'Force Actions';
+    async function updateButtons() {
+        const { playing, scanning } = reader;
+        playButton.textContent = playing ? `reader.pause()` : `reader.play()`;
+        scanButton.textContent = scanning ? `reader.stopScanning(${forceActions})` : `reader.startScanning(${forceActions})`;
+        forceButton.textContent = forceActions ? 'Don\'t Force Actions' : 'Force Actions';
 
-      switch (latestQRCode) {
-        case undefined:
-          getQRButton.textContent = `reader.getQRCode(${forceActions})`;
-          break;
-        case null:
-          getQRButton.textContent = `reader.getQRCode(${forceActions}) - pending`;
-          break;
-        default:
-          getQRButton.textContent = `reader.getQRCode(${forceActions}) - ${latestQRCode}`;
-          break;
-      }
+        switch (latestQRCode) {
+            case undefined:
+                getQRButton.textContent = `reader.getQRCode(${forceActions})`;
+                break;
+            case null:
+                getQRButton.textContent = `reader.getQRCode(${forceActions}) - pending`;
+                break;
+            default:
+                getQRButton.textContent = `reader.getQRCode(${forceActions}) - ${latestQRCode}`;
+                break;
+        }
 
     }
 
     function updateTimers() {
-      const measuredTime = new Date(null);
-      measuredTime.setSeconds(secondsElapsed);
-      let MHSTime = measuredTime.toISOString().substr(11, 8);
-      apparentTimer.textContent = `Apparent Time Elapsed: ${MHSTime}`;
+        const measuredTime = new Date(null);
+        measuredTime.setSeconds(secondsElapsed);
+        let MHSTime = measuredTime.toISOString().substr(11, 8);
+        apparentTimer.textContent = `Apparent Time Elapsed: ${MHSTime}`;
 
-      const formattedDiff = new Date();
-      formattedDiff.setTime((Date.now() - startTime));
-      MHSTime = formattedDiff.toISOString().substr(11, 8);
-      actualTimer.textContent = `Actual Time Elapsed: ${MHSTime}`;
+        const formattedDiff = new Date();
+        formattedDiff.setTime((Date.now() - startTime));
+        MHSTime = formattedDiff.toISOString().substr(11, 8);
+        actualTimer.textContent = `Actual Time Elapsed: ${MHSTime}`;
     }
 
     async function toggleTest() {
-      if (reader.scanning) {
-        reader.pause();
-        stateHeader.textContent = 'Not Streaming';
-      } else {
-        reader.startScanning(true);
-        stateHeader.textContent = 'Streaming';
-      }
+        if (reader.scanning) {
+            reader.pause();
+            stateHeader.textContent = 'Not Streaming';
+        } else {
+            reader.startScanning(true);
+            stateHeader.textContent = 'Streaming';
+        }
     }
 
   </script>
