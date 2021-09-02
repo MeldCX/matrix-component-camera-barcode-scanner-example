@@ -39,8 +39,8 @@
     <label id="focusDistanceMax" name="focusDistanceMax"></label><br>
     <label for="focusDistanceStep">focus Distance Step: </label>
     <label id="focusDistanceStep" name="focusDistanceStep"></label><br>
-    <label><b>Focus Distance: </b></label>
-    <input type="text" id="focusDistance" name="focusDistance">0.28</br>
+    <label><b>Default Focus Distance: </b></label>
+    <input type="text" id="focusDistance" name="focusDistance"></br>
     
     <label for="exposureTimeMin">Exposure Time Minimum: </label>
     <label id="exposureTimeMin" name="exposureTimeMin"></label><br>
@@ -48,8 +48,8 @@
     <label id="exposureTimeMax" name="exposureTimeMax"></label><br>
     <label for="exposureTimeStep">Exposure Time Step: </label>
     <label id="exposureTimeStep" name="exposureTimeStep"></label><br>
-    <label><b>Exposure Time: </b></label>
-    <input type="text" id="exposureTime" name="exposureTime">300</br>   
+    <label><b>Default Exposure Time: </b></label>
+    <input type="text" id="exposureTime" name="exposureTime"></br>   
     
     <label for="saturationMin">Saturation Minimum: </label>
     <label id="saturationMin" name="saturationMin"></label><br>
@@ -57,8 +57,8 @@
     <label id="saturationMax" name="saturationMax"></label><br>
     <label for="saturationStep">Saturation Step: </label>
     <label id="saturationStep" name="saturationStep"></label><br>
-    <label><b>Saturation: </b></label>
-    <input type="text" id="saturation" name="saturation">0</br>       
+    <label><b>Default Saturation: </b></label>
+    <input type="text" id="saturation" name="saturation"></br>       
 
     <label for="sharpnessMin">Sharpness Minimum: </label>
     <label id="sharpnessMin" name="sharpnessMin"></label><br>
@@ -66,8 +66,8 @@
     <label id="sharpnessMax" name="sharpnessMax"></label><br>
     <label for="sharpnessStep">Sharpness Step: </label>
     <label id="sharpnessStep" name="sharpnessStep"></label><br>
-    <label><b>Sharpness: </b></label>
-    <input type="text" id="sharpness" name="sharpness">6</br>
+    <label><b>Default Sharpness: </b></label>
+    <input type="text" id="sharpness" name="sharpness"></br>
     
     <label for="brightnessMin">Brightness Minimum: </label>
     <label id="brightnessMin" name="brightnessMin"></label><br>
@@ -75,8 +75,8 @@
     <label id="brightnessMax" name="brightnessMax"></label><br>
     <label for="brightnessStep">Brightness Step: </label>
     <label id="brightnessStep" name="brightnessStep"></label><br>
-    <label><b>Brightness: </b></label>
-    <input type="text" id="brightness" name="brightness">64</br>     
+    <label><b>Default Brightness: </b></label>
+    <input type="text" id="brightness" name="brightness"></br>     
 
     <label for="contrastMin">Contrast Minimum: </label>
     <label id="contrastMin" name="contrastMin"></label><br>
@@ -84,8 +84,8 @@
     <label id="contrastMax" name="contrastMax"></label><br>
     <label for="contrastStep">Contrast Step: </label>
     <label id="contrastStep" name="contrastStep"></label><br>
-    <label><b>Contrast: </b></label>
-    <input type="text" id="contrast" name="contrast">60</br>  
+    <label><b>Default Contrast: </b></label>
+    <input type="text" id="contrast" name="contrast"></br>  
  
     <button id="set-advanced-settings">Set Advanced Settings</button><br><br>
     
@@ -306,6 +306,12 @@
         document.getElementById("contrastMax").innerHTML = data.contrastMax;
         document.getElementById("contrastStep").innerHTML = data.contrastStep;
 
+        document.getElementById("focusDistance").value = '0.28';
+        document.getElementById("exposureTime").value = '300';
+        document.getElementById("saturation").value = '0';
+        document.getElementById("sharpness").value = '6';
+        document.getElementById("brightness").value = '64';
+        document.getElementById("contrast").value = '60'; 
     });
 
 
