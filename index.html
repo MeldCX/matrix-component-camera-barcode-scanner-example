@@ -192,7 +192,11 @@
   </style>
 
   <script>
+  const init = async() => {   
     const reader = document.querySelector('m-camera-barcode-scanner');
+
+    let cameraId = await getCameraId('6366'); 
+    await reader.play(null, cameraId);
 
     let startTime;
     let secondsElapsed = 0;
@@ -280,13 +284,15 @@
         const saturation = document.getElementById("saturation").value;
         const sharpness = document.getElementById("sharpness").value;
         const brightness = document.getElementById("brightness").value;
-        const contrast = document.getElementById("contrast").value;        
+        const contrast = document.getElementById("contrast").value;
+        const focusMode = 'manual';
+        const exposureMode = 'manual';
 
-        reader.setAdvancedSettings(distance, exposureTime, saturation, sharpness, brightness, contrast);
+        reader.setAdvancedSettings({distance, exposureTime, saturation, sharpness, brightness, contrast, focusMode, exposureMode});
     });  
 
-    readCapabilities.addEventListener('click', () => {
-        let data = reader.readCapabilities();
+    readCapabilities.addEventListener('click', async () => {
+        let data = await reader.readCapabilities();
         document.getElementById("focusDistanceMin").innerHTML = data.focusDistanceMin;
         document.getElementById("focusDistanceMax").innerHTML = data.focusDistanceMax;
         document.getElementById("focusDistanceStep").innerHTML = data.focusDistanceStep;
@@ -356,8 +362,28 @@
     });
     
     selectCamera.addEventListener('change', async () => {
-        reader.selectCamera();
+        await reader.pause();
+        let cameraId = document.getElementById("selectCamera").value;
+        await reader.play(null, cameraId); 
     });    
+
+    async function getCameraId(pid) {
+        let devices = await navigator.mediaDevices.enumerateDevices();
+        devices = devices.filter(({kind}) => kind === 'videoinput');
+        let deviceId = devices[0].deviceId;
+        for(let m = 0 ; m <= devices.length-1; m++){
+            let option= document.createElement("OPTION");
+            option.text = devices[m].label;
+            option.value = devices[m].deviceId;            
+            if (devices[m].label.indexOf(pid) > 0) {
+                deviceId = devices[m].deviceId;
+                option.selected = true;
+            }
+            document.getElementById("selectCamera").options.add(option); 
+        }
+        
+        return deviceId;
+    }
 
     reader.addEventListener('pause', updateButtons);
     reader.addEventListener('play', updateButtons);
@@ -409,7 +435,8 @@
             stateHeader.textContent = 'Streaming';
         }
     }
-
+  }
+  init(); 
   </script>
 </body>
 
