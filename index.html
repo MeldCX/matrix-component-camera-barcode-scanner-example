@@ -197,6 +197,7 @@
 
     let cameraId = await getCameraId('6366'); 
     await reader.play(null, cameraId);
+    await reader.startScanning(true);
 
     let startTime;
     let secondsElapsed = 0;
@@ -365,6 +366,7 @@
         await reader.pause();
         let cameraId = document.getElementById("selectCamera").value;
         await reader.play(null, cameraId); 
+        await reader.startScanning(true);
     });    
 
     async function getCameraId(pid) {
