@@ -94,8 +94,8 @@
     <select id='selectCamera' style="width: 400px;"></select><br><br>    
  
   </div>
-  <hr />
-  <m-camera-barcode-scanner style="width: 800px; height: 600px; -webkit-transform: scaleX(-1); transform: scaleX(-1);" auto-start='scan' width="800" height="600" guide
+  <hr /> 
+  <m-camera-barcode-scanner style="width: 800px; height: 600px; -webkit-transform: scaleX(-1); transform: scaleX(-1);" width="800" height="600" guide
     guide-size="300" frame-rate="60"></m-camera-barcode-scanner>
   <hr />
   <div>
@@ -130,10 +130,10 @@
       <dd>The video track used will be trackIndex || the value set with setDefaultTrack() || 0</dd>
       <dt>stopScanning()</dt>
       <dd>stops scanning for barcode and hide the guide</dd>
-      <dt>startScanning(force?: boolean)</dt>
+      <dt>startScanning(force?: boolean, trackIndex, cameraId)</dt>
       <dd>start scanning for barcode and show guide (if configured to show).</dd>
       <dd>force - forces camera to start streaming</dd>
-      <dt>getQRCode(force)</dt>
+      <dt>getQRCode(force, trackIndex, cameraId )</dt>
       <dd>returns a promise the resolves to the first valid barcode. The promise is rejected if scanning is
         stopped before a result was found</dd>
     </dl>
@@ -195,9 +195,11 @@
   const init = async() => {   
     const reader = document.querySelector('m-camera-barcode-scanner');
 
-    let cameraId = await getCameraId('6366'); 
-    await reader.play(null, cameraId);
-    await reader.startScanning(true);
+    const topKioskCameraPID = '6367';
+    const bottomKioskCameraPID = '6366';
+    const trackIndex = null;
+    let cameraId = await getCameraId(bottomKioskCameraPID);
+    await reader.startScanning(true, trackIndex, cameraId);
 
     let startTime;
     let secondsElapsed = 0;
@@ -243,7 +245,7 @@
         if (reader.scanning) {
             reader.stopScanning();
         } else {
-            reader.startScanning(forceActions);
+            reader.startScanning(forceActions, trackIndex, cameraId);
         }
         updateButtons();
     });
@@ -251,7 +253,7 @@
     getQRButton.addEventListener('click', async () => {
         latestQRCode = null;
         updateButtons();
-        reader.getQRCode(forceActions).then(async (result) => {
+        reader.getQRCode(forceActions, trackIndex, cameraId).then(async (result) => {
             latestQRCode = result.data.text;
             updateButtons();
         }).catch((e) => {
@@ -363,10 +365,9 @@
     });
     
     selectCamera.addEventListener('change', async () => {
-        await reader.pause();
-        let cameraId = document.getElementById("selectCamera").value;
-        await reader.play(null, cameraId); 
-        await reader.startScanning(true);
+        await reader.pause();      
+        cameraId = document.getElementById("selectCamera").value;          
+        await reader.startScanning(true, trackIndex, cameraId);
     });    
 
     async function getCameraId(pid) {
@@ -399,18 +400,18 @@
     async function updateButtons() {
         const { playing, scanning } = reader;
         playButton.textContent = playing ? `reader.pause()` : `reader.play()`;
-        scanButton.textContent = scanning ? `reader.stopScanning(${forceActions})` : `reader.startScanning(${forceActions})`;
+        scanButton.textContent = scanning ? `reader.stopScanning(${forceActions})` : `reader.startScanning(${forceActions, trackIndex, cameraId})`;
         forceButton.textContent = forceActions ? 'Don\'t Force Actions' : 'Force Actions';
 
         switch (latestQRCode) {
             case undefined:
-                getQRButton.textContent = `reader.getQRCode(${forceActions})`;
+                getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId})`;
                 break;
             case null:
-                getQRButton.textContent = `reader.getQRCode(${forceActions}) - pending`;
+                getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId}) - pending`;
                 break;
             default:
-                getQRButton.textContent = `reader.getQRCode(${forceActions}) - ${latestQRCode}`;
+                getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId}) - ${latestQRCode}`;
                 break;
         }
 
@@ -433,7 +434,7 @@
             reader.pause();
             stateHeader.textContent = 'Not Streaming';
         } else {
-            reader.startScanning(true);
+            reader.startScanning(true, trackIndex, cameraId);
             stateHeader.textContent = 'Streaming';
         }
     }
