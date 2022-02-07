@@ -2,445 +2,481 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Document</title>
-  <script src="https://storage.googleapis.com/assets.meld.cx/agent/1.0.41/Agent.js"></script>
-  <script src="node_modules/@meldcx/matrix-component-camera-barcode-scanner/dist/index.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://storage.googleapis.com/assets.meld.cx/agent/1.0.41/Agent.js"></script>
+    <script src="node_modules/@meldcx/matrix-component-camera-barcode-scanner/dist/index.js"></script>
 </head>
 
 <body>
-  <h1>QR Code Data:</h1>
-  <h2 class="barcode">Barcode</h2>
-  <div id="test" style="width: 100vw">
-    <div id="circle">
-      <div id="inner"></div>
+    <div>
+        <h1>QR Code Data:</h1>
+        <h2 class="barcode">Barcode</h2>
+        <div id="test" style="width: 100vw">
+            <div id="circle">
+                <div id="inner"></div>
+            </div>
+
+
+            <div>
+                <h2 id="apparent-time">Apparent Time Elapsed: 0 sec</h2>
+                <h2 id="actual-time">Actual Time Elapsed: 0 sec</h2>
+                <h2 id="state">Not Streaming</h2>
+            </div>
+
+        </div>
+        <div id="buttons">
+            <div class="flex-container">
+                <button id="play-button">Start Playing</button>
+                <button id="scan-button">Start Scanning</button>
+                <button id="getqr-button">reader.getQRCode()</button>
+                <button id="guide-button">toggle border</button>
+                <button id="idle-button">idle camera</button>
+                <br />
+                <button id="force-button">Force Actions</button>
+                <button id="test-button">start test</button>
+            </div>
+
+
+            <div class="flex-container">
+                <h2>Advanced Settings</h2>
+                <button id="read-capabilities">Read Advanced Settings</button>
+                <label for="focusDistanceMin">focus Distance Minimum: </label>
+                <label id="focusDistanceMin" name="focusDistanceMin"></label>
+                <label for="focusDistanceMax">focus Distance Maximum: </label>
+                <label id="focusDistanceMax" name="focusDistanceMax"></label>
+                <label for="focusDistanceStep">focus Distance Step: </label>
+                <label id="focusDistanceStep" name="focusDistanceStep"></label>
+                <label><b>Default Focus Distance: </b></label>
+                <input type="text" id="focusDistance" name="focusDistance">
+
+
+                <label for="exposureTimeMin">Exposure Time Minimum: </label>
+                <label id="exposureTimeMin" name="exposureTimeMin"></label>
+                <label for="exposureTimeMax">Exposure Time Maximum: </label>
+                <label id="exposureTimeMax" name="exposureTimeMax"></label>
+                <label for="exposureTimeStep">Exposure Time Step: </label>
+                <label id="exposureTimeStep" name="exposureTimeStep"></label>
+                <label><b>Default Exposure Time: </b></label>
+                <input type="text" id="exposureTime" name="exposureTime">
+
+                <label for="saturationMin">Saturation Minimum: </label>
+                <label id="saturationMin" name="saturationMin"></label>
+                <label for="saturationMax">Saturation Maximum: </label>
+                <label id="saturationMax" name="saturationMax"></label>
+                <label for="saturationStep">Saturation Step: </label>
+                <label id="saturationStep" name="saturationStep"></label>
+                <label><b>Default Saturation: </b></label>
+                <input type="text" id="saturation" name="saturation">
+
+
+                <label for="sharpnessMin">Sharpness Minimum: </label>
+                <label id="sharpnessMin" name="sharpnessMin"></label>
+                <label for="sharpnessMax">Sharpness Maximum: </label>
+                <label id="sharpnessMax" name="sharpnessMax"></label>
+                <label for="sharpnessStep">Sharpness Step: </label>
+                <label id="sharpnessStep" name="sharpnessStep"></label>
+                <label><b>Default Sharpness: </b></label>
+                <input type="text" id="sharpness" name="sharpness">
+
+                <label for="brightnessMin">Brightness Minimum: </label>
+                <label id="brightnessMin" name="brightnessMin"></label>
+                <label for="brightnessMax">Brightness Maximum: </label>
+                <label id="brightnessMax" name="brightnessMax"></label>
+                <label for="brightnessStep">Brightness Step: </label>
+                <label id="brightnessStep" name="brightnessStep"></label>
+                <label><b>Default Brightness: </b></label>
+                <input type="text" id="brightness" name="brightness">
+
+                <label for="contrastMin">Contrast Minimum: </label>
+                <label id="contrastMin" name="contrastMin"></label>
+                <label for="contrastMax">Contrast Maximum: </label>
+                <label id="contrastMax" name="contrastMax"></label>
+                <label for="contrastStep">Contrast Step: </label>
+                <label id="contrastStep" name="contrastStep"></label>
+                <label><b>Default Contrast: </b></label>
+                <input type="text" id="contrast" name="contrast">
+
+                <button id="set-advanced-settings">Set Advanced Settings</button>
+
+                <h2>Select Video Source</h2>
+                <label for="cameras">Choose a camera:</label>
+                <select id='selectCamera' style="width: 400px;"></select><br><br>
+                <m-camera-barcode-scanner
+                    style="width: 600px; height: 600px; -webkit-transform: scaleX(-1); transform: scaleX(-1);"
+                    width="600" height="600" guide guide-size="300" frame-rate="60"></m-camera-barcode-scanner>
+            </div>
+        </div>
     </div>
-    <h1 id="apparent-time">Apparent Time Elapsed: 0 sec</h2>
-      <h1 id="actual-time">Actual Time Elapsed: 0 sec</h2>
-        <h2 id="state">Not Streaming</h3>
-  </div>
-  <div id="buttons">
-    <button id="play-button">Start Playing</button></br>
-    <button id="scan-button">Start Scanning</button></br>
-    <button id="getqr-button">reader.getQRCode()</button></br>
-    <button id="guide-button">toggle border</button></br>
-    <button id="idle-button">idle camera</button></br>
-    <br />
-    <button id="force-button">Force Actions</button></br>
-    <button id="test-button">start test</button></br><br>
-    
-    <h2>Advanced Settings</h2>
-    <button id="read-capabilities">Read Advanced Settings</button><br>
-    <label for="focusDistanceMin">focus Distance Minimum: </label>
-    <label id="focusDistanceMin" name="focusDistanceMin"></label><br>
-    <label for="focusDistanceMax">focus Distance Maximum: </label>
-    <label id="focusDistanceMax" name="focusDistanceMax"></label><br>
-    <label for="focusDistanceStep">focus Distance Step: </label>
-    <label id="focusDistanceStep" name="focusDistanceStep"></label><br>
-    <label><b>Default Focus Distance: </b></label>
-    <input type="text" id="focusDistance" name="focusDistance"></br>
-    
-    <label for="exposureTimeMin">Exposure Time Minimum: </label>
-    <label id="exposureTimeMin" name="exposureTimeMin"></label><br>
-    <label for="exposureTimeMax">Exposure Time Maximum: </label>
-    <label id="exposureTimeMax" name="exposureTimeMax"></label><br>
-    <label for="exposureTimeStep">Exposure Time Step: </label>
-    <label id="exposureTimeStep" name="exposureTimeStep"></label><br>
-    <label><b>Default Exposure Time: </b></label>
-    <input type="text" id="exposureTime" name="exposureTime"></br>   
-    
-    <label for="saturationMin">Saturation Minimum: </label>
-    <label id="saturationMin" name="saturationMin"></label><br>
-    <label for="saturationMax">Saturation Maximum: </label>
-    <label id="saturationMax" name="saturationMax"></label><br>
-    <label for="saturationStep">Saturation Step: </label>
-    <label id="saturationStep" name="saturationStep"></label><br>
-    <label><b>Default Saturation: </b></label>
-    <input type="text" id="saturation" name="saturation"></br>       
 
-    <label for="sharpnessMin">Sharpness Minimum: </label>
-    <label id="sharpnessMin" name="sharpnessMin"></label><br>
-    <label for="sharpnessMax">Sharpness Maximum: </label>
-    <label id="sharpnessMax" name="sharpnessMax"></label><br>
-    <label for="sharpnessStep">Sharpness Step: </label>
-    <label id="sharpnessStep" name="sharpnessStep"></label><br>
-    <label><b>Default Sharpness: </b></label>
-    <input type="text" id="sharpness" name="sharpness"></br>
-    
-    <label for="brightnessMin">Brightness Minimum: </label>
-    <label id="brightnessMin" name="brightnessMin"></label><br>
-    <label for="brightnessMax">Brightness Maximum: </label>
-    <label id="brightnessMax" name="brightnessMax"></label><br>
-    <label for="brightnessStep">Brightness Step: </label>
-    <label id="brightnessStep" name="brightnessStep"></label><br>
-    <label><b>Default Brightness: </b></label>
-    <input type="text" id="brightness" name="brightness"></br>     
 
-    <label for="contrastMin">Contrast Minimum: </label>
-    <label id="contrastMin" name="contrastMin"></label><br>
-    <label for="contrastMax">Contrast Maximum: </label>
-    <label id="contrastMax" name="contrastMax"></label><br>
-    <label for="contrastStep">Contrast Step: </label>
-    <label id="contrastStep" name="contrastStep"></label><br>
-    <label><b>Default Contrast: </b></label>
-    <input type="text" id="contrast" name="contrast"></br>  
- 
-    <button id="set-advanced-settings">Set Advanced Settings</button><br><br>
-    
-    <h2>Select Video Source</h2>
-    <label for="cameras">Choose a camera:</label>
-    <select id='selectCamera' style="width: 400px;"></select><br><br>    
- 
-  </div>
-  <hr /> 
-  <m-camera-barcode-scanner style="width: 800px; height: 600px; -webkit-transform: scaleX(-1); transform: scaleX(-1);" width="800" height="600" guide
-    guide-size="300" frame-rate="60"></m-camera-barcode-scanner>
-  <hr />
-  <div>
-    <dl>
-      <h3>Events</h3>
-      <dt>result</dt>
-      <dd>emits on every requested animation frame where a valid barcode is found</dd>
-      <dt>play</dt>
-      <dd>emits when the camera stream is activated. Called with reader.play()</dd>
-      <dt>pause</dt>
-      <dd>emits when the camera stream is stopped. Called with reader.pause()</dd>
-      <dt>scanStart</dt>
-      <dd>emits when the scanning is started. Called with reader.startScanning()</dd>
-      <dt>scanStop</dt>
-      <dd>emits when the scanning is stopped. Called with reader.stopScanning()</dd>
-    </dl>
 
-    <dl>
-      <h3>Methods</h3>
-      <dt>getTrackLabels()</dt>
-      <dd>returns array of video device names</dd>
-      <dd>throws NotInitialised if used before play() has been called at least once</dd>
-      <dt>setTrack(trackIndex: number)</dt>
-      <dd>Sets the default track to the index specified and updates the video stream accordingly</dd>
-      <dd>throws NotInitialised if used before play() has been called at least once</dd>
-      <dd>throws InvalidTrack if trackIndex is < 0 or> the number of available tracks</dd>
-      <dt>pause()</dt>
-      <dd>stops streaming the camera</dd>
-      <dt>play(optional: trackIndex)</dt>
-      <dd>starts streaming the camera. This method initialises the camera trigger a request for camera permissions
-      </dd>
-      <dd>The video track used will be trackIndex || the value set with setDefaultTrack() || 0</dd>
-      <dt>stopScanning()</dt>
-      <dd>stops scanning for barcode and hide the guide</dd>
-      <dt>startScanning(force?: boolean, trackIndex, cameraId)</dt>
-      <dd>start scanning for barcode and show guide (if configured to show).</dd>
-      <dd>force - forces camera to start streaming</dd>
-      <dt>getQRCode(force, trackIndex, cameraId )</dt>
-      <dd>returns a promise the resolves to the first valid barcode. The promise is rejected if scanning is
-        stopped before a result was found</dd>
-    </dl>
 
-    <dl>
-      <h3>Element Attributes</h3>
-      <dt>idle-camera</dt>
-      <dd>when 'idle-camera' is present, pause keeps the camera in use but stops streaming. Without it, pause stops the camera feed, freeing it up to be used by other applications.</dd>
-      <dt>auto-start</dt>
-      <dd>triggers request for camera permissions once the element is mounted</dd>
-      <dd>play - triggers request and starts streaming the first video track it finds</dd>
-      <dd>scan - same as above, plus starts scanning</dd>
-      <dt>width</dt>
-      <dd>the width of the element. Also used to <a
-          href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
-        (default: 1280)</dd>
-      <dt>height</dt>
-      <dd>the height of the element. Also used to <a
-          href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
-        (default: 720)</dd>
-      <dt>frame-rate</dt>
-      <dd>the frame rate used in <a
-          href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
-        (default: 30)</dd>
-      <dt>guide</dt>
-      <dd>if not null the guides will be shown when scanning is active (default: null - ie. not shown)</dd>
-      <dt>guide-size</dt>
-      <dd>the size of the guide in pixels (default: 50% of the smallest dimension (height, width)</dd>
-      <dt>guide-valid-color</dt>
-      <dd>the color the guide will be when a qr code is being scanned succesfully (default: #2BCC61)</dd>
-      <dt>guide-invalid-color</dt>
-      <dd>the default color of the guide when shown (default: #FF424)</dd>
-    </dl>
-  </div>
 
-  <style>
-    #circle {
-      display: inline-block;
-      border-radius: 50%;
-      background-color: rgb(0, 0, 0);
-      height: 100px;
-      width: 100px;
-    }
 
-    #inner {
-      border-radius: 50%;
-      background-color: rgb(0, 255, 34);
-      height: 100%;
-      width: 100%;
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      transition: ease-in-out 0.9s transform;
-    }
-  </style>
 
-  <script>
-  const init = async() => {   
-    const reader = document.querySelector('m-camera-barcode-scanner');
+    <!-- events section -->
+    <div>
+        <dl>
+            <h3>Events</h3>
+            <dt>result</dt>
+            <dd>emits on every requested animation frame where a valid barcode is found</dd>
+            <dt>play</dt>
+            <dd>emits when the camera stream is activated. Called with reader.play()</dd>
+            <dt>pause</dt>
+            <dd>emits when the camera stream is stopped. Called with reader.pause()</dd>
+            <dt>scanStart</dt>
+            <dd>emits when the scanning is started. Called with reader.startScanning()</dd>
+            <dt>scanStop</dt>
+            <dd>emits when the scanning is stopped. Called with reader.stopScanning()</dd>
+        </dl>
 
-    const topKioskCameraPID = '6367';
-    const bottomKioskCameraPID = '6366';
-    const trackIndex = null;
-    let cameraId = await getCameraId(bottomKioskCameraPID);
-    await reader.startScanning(true, trackIndex, cameraId);
+        <dl>
+            <h3>Methods</h3>
+            <dt>getTrackLabels()</dt>
+            <dd>returns array of video device names</dd>
+            <dd>throws NotInitialised if used before play() has been called at least once</dd>
+            <dt>setTrack(trackIndex: number)</dt>
+            <dd>Sets the default track to the index specified and updates the video stream accordingly</dd>
+            <dd>throws NotInitialised if used before play() has been called at least once</dd>
+            <dd>throws InvalidTrack if trackIndex is < 0 or> the number of available tracks</dd>
+            <dt>pause()</dt>
+            <dd>stops streaming the camera</dd>
+            <dt>play(optional: trackIndex)</dt>
+            <dd>starts streaming the camera. This method initialises the camera trigger a request for camera permissions
+            </dd>
+            <dd>The video track used will be trackIndex || the value set with setDefaultTrack() || 0</dd>
+            <dt>stopScanning()</dt>
+            <dd>stops scanning for barcode and hide the guide</dd>
+            <dt>startScanning(force?: boolean, trackIndex, cameraId)</dt>
+            <dd>start scanning for barcode and show guide (if configured to show).</dd>
+            <dd>force - forces camera to start streaming</dd>
+            <dt>getQRCode(force, trackIndex, cameraId )</dt>
+            <dd>returns a promise the resolves to the first valid barcode. The promise is rejected if scanning is
+                stopped before a result was found</dd>
+        </dl>
 
-    let startTime;
-    let secondsElapsed = 0;
-    let forceActions = true;
-    let testing = false;
-    let testingTimeout;
-    let latestQRCode = undefined;
+        <dl>
+            <h3>Element Attributes</h3>
+            <dt>idle-camera</dt>
+            <dd>when 'idle-camera' is present, pause keeps the camera in use but stops streaming. Without it, pause
+                stops the camera feed, freeing it up to be used by other applications.</dd>
+            <dt>auto-start</dt>
+            <dd>triggers request for camera permissions once the element is mounted</dd>
+            <dd>play - triggers request and starts streaming the first video track it finds</dd>
+            <dd>scan - same as above, plus starts scanning</dd>
+            <dt>width</dt>
+            <dd>the width of the element. Also used to <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
+                (default: 1280)</dd>
+            <dt>height</dt>
+            <dd>the height of the element. Also used to <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
+                (default: 720)</dd>
+            <dt>frame-rate</dt>
+            <dd>the frame rate used in <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/applyConstraints">applyConstraints</a>
+                (default: 30)</dd>
+            <dt>guide</dt>
+            <dd>if not null the guides will be shown when scanning is active (default: null - ie. not shown)</dd>
+            <dt>guide-size</dt>
+            <dd>the size of the guide in pixels (default: 50% of the smallest dimension (height, width)</dd>
+            <dt>guide-valid-color</dt>
+            <dd>the color the guide will be when a qr code is being scanned succesfully (default: #2BCC61)</dd>
+            <dt>guide-invalid-color</dt>
+            <dd>the default color of the guide when shown (default: #FF424)</dd>
+        </dl>
+    </div>
 
-    const playButton = document.querySelector('#play-button');
-    const scanButton = document.querySelector('#scan-button');
-    const forceButton = document.querySelector('#force-button');
-    const getQRButton = document.querySelector('#getqr-button');
-    const testButton = document.querySelector('#test-button');
-    const guideButton = document.querySelector('#guide-button');
-    const idleButton = document.querySelector('#idle-button');
-    const breather = document.querySelector('#inner');
-    const selectCamera = document.querySelector('#selectCamera');
-
-    const setAdvancedSettings = document.querySelector('#set-advanced-settings');
-    const readCapabilities = document.querySelector('#read-capabilities');
-    const actualTimer = document.querySelector('#actual-time');
-    const apparentTimer = document.querySelector('#apparent-time');
-    const stateHeader = document.querySelector('#state');            
-
-    updateButtons();
-
-    if (reader.getAttribute('idle-camera') === null) {
-        idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
-    } else {
-        idleButton.textContent = 'toggle camera idle (current: idle)';
-    }
-
-    playButton.addEventListener('click', async () => {
-        if (reader.playing) {
-            reader.pause();
-        } else {
-            reader.play();
+    <style>
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            width: 600px;
+            align-content: space-between;
         }
-        updateButtons();
-    });
 
-    scanButton.addEventListener('click', async () => {
-        if (reader.scanning) {
-            reader.stopScanning();
-        } else {
-            reader.startScanning(forceActions, trackIndex, cameraId);
+        button {
+            padding: 3px;
         }
-        updateButtons();
-    });
 
-    getQRButton.addEventListener('click', async () => {
-        latestQRCode = null;
-        updateButtons();
-        reader.getQRCode(forceActions, trackIndex, cameraId).then(async (result) => {
-            latestQRCode = result.data.text;
+        input {
+            margin-bottom: 10px;
+        }
+
+        #circle {
+            display: inline-block;
+            border-radius: 50%;
+            background-color: rgb(0, 0, 0);
+            height: 100px;
+            width: 100px;
+        }
+
+        #inner {
+            border-radius: 50%;
+            background-color: rgb(0, 255, 34);
+            height: 100%;
+            width: 100%;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: ease-in-out 0.9s transform;
+        }
+    </style>
+
+    <script>
+        const init = async () => {
+            const reader = document.querySelector('m-camera-barcode-scanner');
+
+            const topKioskCameraPID = '6367';
+            const bottomKioskCameraPID = '6366';
+            const trackIndex = null;
+            let cameraId = await getCameraId(bottomKioskCameraPID);
+            await reader.startScanning(true, trackIndex, cameraId);
+
+            let startTime;
+            let secondsElapsed = 0;
+            let forceActions = true;
+            let testing = false;
+            let testingTimeout;
+            let latestQRCode = undefined;
+
+            const playButton = document.querySelector('#play-button');
+            const scanButton = document.querySelector('#scan-button');
+            const forceButton = document.querySelector('#force-button');
+            const getQRButton = document.querySelector('#getqr-button');
+            const testButton = document.querySelector('#test-button');
+            const guideButton = document.querySelector('#guide-button');
+            const idleButton = document.querySelector('#idle-button');
+            const breather = document.querySelector('#inner');
+            const selectCamera = document.querySelector('#selectCamera');
+
+            const setAdvancedSettings = document.querySelector('#set-advanced-settings');
+            const readCapabilities = document.querySelector('#read-capabilities');
+            const actualTimer = document.querySelector('#actual-time');
+            const apparentTimer = document.querySelector('#apparent-time');
+            const stateHeader = document.querySelector('#state');
+
             updateButtons();
-        }).catch((e) => {
-            console.error(e);
-            latestQRCode = undefined;
-        });
-    });
 
-    guideButton.addEventListener('click', () => {
-        const current = reader.getAttribute('guide');
-        if (current === '' || current === 'true') {
-            reader.setAttribute('guide', 'false');
-        } else {
-            reader.setAttribute('guide', 'true');
-        }
-    });
+            if (reader.getAttribute('idle-camera') === null) {
+                idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
+            } else {
+                idleButton.textContent = 'toggle camera idle (current: idle)';
+            }
 
-    idleButton.addEventListener('click', () => {
-        if (reader.getAttribute('idle-camera') === null) {
-            reader.setAttribute('idle-camera', '');
-            idleButton.textContent = 'toggle camera idle (current: idle)';
-        } else {
-            reader.removeAttribute('idle-camera');
-            idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
-        }
-    });
+            playButton.addEventListener('click', async () => {
+                if (reader.playing) {
+                    reader.pause();
+                } else {
+                    reader.play();
+                }
+                updateButtons();
+            });
 
-    setAdvancedSettings.addEventListener('click', () => {
-        const distance = document.getElementById("focusDistance").value;
-        const exposureTime = document.getElementById("exposureTime").value;
-        const saturation = document.getElementById("saturation").value;
-        const sharpness = document.getElementById("sharpness").value;
-        const brightness = document.getElementById("brightness").value;
-        const contrast = document.getElementById("contrast").value;
-        const focusMode = 'manual';
-        const exposureMode = 'manual';
+            scanButton.addEventListener('click', async () => {
+                if (reader.scanning) {
+                    reader.stopScanning();
+                } else {
+                    reader.startScanning(forceActions, trackIndex, cameraId);
+                }
+                updateButtons();
+            });
 
-        reader.setAdvancedSettings({distance, exposureTime, saturation, sharpness, brightness, contrast, focusMode, exposureMode});
-    });  
+            getQRButton.addEventListener('click', async () => {
+                latestQRCode = null;
+                updateButtons();
+                reader.getQRCode(forceActions, trackIndex, cameraId).then(async (result) => {
+                    latestQRCode = result.data.text;
+                    updateButtons();
+                }).catch((e) => {
+                    console.error(e);
+                    latestQRCode = undefined;
+                });
+            });
 
-    readCapabilities.addEventListener('click', async () => {
-        let data = await reader.readCapabilities();
-        document.getElementById("focusDistanceMin").innerHTML = data.focusDistanceMin;
-        document.getElementById("focusDistanceMax").innerHTML = data.focusDistanceMax;
-        document.getElementById("focusDistanceStep").innerHTML = data.focusDistanceStep;
-        document.getElementById("exposureTimeMin").innerHTML = data.exposureTimeMin;
-        document.getElementById("exposureTimeMax").innerHTML = data.exposureTimeMax;
-        document.getElementById("exposureTimeStep").innerHTML = data.exposureTimeStep; 
-        document.getElementById("saturationMin").innerHTML = data.saturationMin;
-        document.getElementById("saturationMax").innerHTML = data.saturationMax;
-        document.getElementById("saturationStep").innerHTML = data.saturationStep;
-        document.getElementById("sharpnessMin").innerHTML = data.sharpnessMin;
-        document.getElementById("sharpnessMax").innerHTML = data.sharpnessMax;
-        document.getElementById("sharpnessStep").innerHTML = data.sharpnessStep;
-        document.getElementById("brightnessMin").innerHTML = data.brightnessMin;
-        document.getElementById("brightnessMax").innerHTML = data.brightnessMax;
-        document.getElementById("brightnessStep").innerHTML = data.brightnessStep;
-        document.getElementById("contrastMin").innerHTML = data.contrastMin;
-        document.getElementById("contrastMax").innerHTML = data.contrastMax;
-        document.getElementById("contrastStep").innerHTML = data.contrastStep;
+            guideButton.addEventListener('click', () => {
+                const current = reader.getAttribute('guide');
+                if (current === '' || current === 'true') {
+                    reader.setAttribute('guide', 'false');
+                } else {
+                    reader.setAttribute('guide', 'true');
+                }
+            });
 
-        document.getElementById("focusDistance").value = '0.28';
-        document.getElementById("exposureTime").value = '300';
-        document.getElementById("saturation").value = '0';
-        document.getElementById("sharpness").value = '6';
-        document.getElementById("brightness").value = '64';
-        document.getElementById("contrast").value = '60'; 
-    });
+            idleButton.addEventListener('click', () => {
+                if (reader.getAttribute('idle-camera') === null) {
+                    reader.setAttribute('idle-camera', '');
+                    idleButton.textContent = 'toggle camera idle (current: idle)';
+                } else {
+                    reader.removeAttribute('idle-camera');
+                    idleButton.textContent = 'toggle camera idle (current: don\'t idle)';
+                }
+            });
+
+            setAdvancedSettings.addEventListener('click', () => {
+                const distance = document.getElementById("focusDistance").value;
+                const exposureTime = document.getElementById("exposureTime").value;
+                const saturation = document.getElementById("saturation").value;
+                const sharpness = document.getElementById("sharpness").value;
+                const brightness = document.getElementById("brightness").value;
+                const contrast = document.getElementById("contrast").value;
+                const focusMode = 'manual';
+                const exposureMode = 'manual';
+
+                reader.setAdvancedSettings({ distance, exposureTime, saturation, sharpness, brightness, contrast, focusMode, exposureMode });
+            });
+
+            readCapabilities.addEventListener('click', async () => {
+                let data = await reader.readCapabilities();
+                document.getElementById("focusDistanceMin").innerHTML = data.focusDistanceMin;
+                document.getElementById("focusDistanceMax").innerHTML = data.focusDistanceMax;
+                document.getElementById("focusDistanceStep").innerHTML = data.focusDistanceStep;
+                document.getElementById("exposureTimeMin").innerHTML = data.exposureTimeMin;
+                document.getElementById("exposureTimeMax").innerHTML = data.exposureTimeMax;
+                document.getElementById("exposureTimeStep").innerHTML = data.exposureTimeStep;
+                document.getElementById("saturationMin").innerHTML = data.saturationMin;
+                document.getElementById("saturationMax").innerHTML = data.saturationMax;
+                document.getElementById("saturationStep").innerHTML = data.saturationStep;
+                document.getElementById("sharpnessMin").innerHTML = data.sharpnessMin;
+                document.getElementById("sharpnessMax").innerHTML = data.sharpnessMax;
+                document.getElementById("sharpnessStep").innerHTML = data.sharpnessStep;
+                document.getElementById("brightnessMin").innerHTML = data.brightnessMin;
+                document.getElementById("brightnessMax").innerHTML = data.brightnessMax;
+                document.getElementById("brightnessStep").innerHTML = data.brightnessStep;
+                document.getElementById("contrastMin").innerHTML = data.contrastMin;
+                document.getElementById("contrastMax").innerHTML = data.contrastMax;
+                document.getElementById("contrastStep").innerHTML = data.contrastStep;
+
+                document.getElementById("focusDistance").value = '0.28';
+                document.getElementById("exposureTime").value = '300';
+                document.getElementById("saturation").value = '0';
+                document.getElementById("sharpness").value = '6';
+                document.getElementById("brightness").value = '64';
+                document.getElementById("contrast").value = '60';
+            });
 
 
-    testButton.addEventListener('click', () => {
-        let count = 0;
-        startTime = Date.now();
-        testing = !testing;
+            testButton.addEventListener('click', () => {
+                let count = 0;
+                startTime = Date.now();
+                testing = !testing;
 
-        if (testing) {
-            function doCount() {
-                testingTimeout = setTimeout(doCount, 1000);
+                if (testing) {
+                    function doCount() {
+                        testingTimeout = setTimeout(doCount, 1000);
 
-                breather.style.transform = `translate(-50%, -50%) scale(${count % 2})`;
-                updateTimers();
+                        breather.style.transform = `translate(-50%, -50%) scale(${count % 2})`;
+                        updateTimers();
 
-                if (count === 15) {
-                    count = 0;
-                    toggleTest();
+                        if (count === 15) {
+                            count = 0;
+                            toggleTest();
+                        }
+
+                        count++;
+                        secondsElapsed++;
+                        testButton.textContent = `stop test - ${count}`;
+                    }
+
+                    doCount();
+                } else {
+                    clearTimeout(testingTimeout);
+                    testButton.textContent = `start test`;
                 }
 
-                count++;
-                secondsElapsed++;
-                testButton.textContent = `stop test - ${count}`;
+            });
+
+            forceButton.addEventListener('click', async () => {
+                forceActions = !forceActions;
+                if (forceActions) {
+                    forceButton.textContent = 'Don\'t Force Actions';
+                } else {
+                    forceButton.textContent = 'Force Actions';
+                }
+                updateButtons();
+            });
+
+            selectCamera.addEventListener('change', async () => {
+                await reader.pause();
+                cameraId = document.getElementById("selectCamera").value;
+                await reader.startScanning(true, trackIndex, cameraId);
+            });
+
+            async function getCameraId(pid) {
+                let devices = await navigator.mediaDevices.enumerateDevices();
+                devices = devices.filter(({ kind }) => kind === 'videoinput');
+                let deviceId = devices[0].deviceId;
+                for (let m = 0; m <= devices.length - 1; m++) {
+                    let option = document.createElement("OPTION");
+                    option.text = devices[m].label;
+                    option.value = devices[m].deviceId;
+                    if (devices[m].label.indexOf(pid) > 0) {
+                        deviceId = devices[m].deviceId;
+                        option.selected = true;
+                    }
+                    document.getElementById("selectCamera").options.add(option);
+                }
+
+                return deviceId;
             }
 
-            doCount();
-        } else {
-            clearTimeout(testingTimeout);
-            testButton.textContent = `start test`;
-        }
+            reader.addEventListener('pause', updateButtons);
+            reader.addEventListener('play', updateButtons);
+            reader.addEventListener('scanStop', updateButtons);
+            reader.addEventListener('scanStart', updateButtons);
+            reader.addEventListener('result', ({ data }) => {
+                console.info(data);
+                document.querySelector('.barcode').textContent = data.text;
+            });
 
-    });
+            async function updateButtons() {
+                const { playing, scanning } = reader;
+                playButton.textContent = playing ? `reader.pause()` : `reader.play()`;
+                scanButton.textContent = scanning ? `reader.stopScanning(${forceActions})` : `reader.startScanning(${forceActions, trackIndex, cameraId})`;
+                forceButton.textContent = forceActions ? 'Don\'t Force Actions' : 'Force Actions';
 
-    forceButton.addEventListener('click', async () => {
-        forceActions = !forceActions;
-        if (forceActions) {
-            forceButton.textContent = 'Don\'t Force Actions';
-        } else {
-            forceButton.textContent = 'Force Actions';
-        }
-        updateButtons();
-    });
-    
-    selectCamera.addEventListener('change', async () => {
-        await reader.pause();      
-        cameraId = document.getElementById("selectCamera").value;          
-        await reader.startScanning(true, trackIndex, cameraId);
-    });    
+                switch (latestQRCode) {
+                    case undefined:
+                        getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId})`;
+                        break;
+                    case null:
+                        getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId}) - pending`;
+                        break;
+                    default:
+                        getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId}) - ${latestQRCode}`;
+                        break;
+                }
 
-    async function getCameraId(pid) {
-        let devices = await navigator.mediaDevices.enumerateDevices();
-        devices = devices.filter(({kind}) => kind === 'videoinput');
-        let deviceId = devices[0].deviceId;
-        for(let m = 0 ; m <= devices.length-1; m++){
-            let option= document.createElement("OPTION");
-            option.text = devices[m].label;
-            option.value = devices[m].deviceId;            
-            if (devices[m].label.indexOf(pid) > 0) {
-                deviceId = devices[m].deviceId;
-                option.selected = true;
             }
-            document.getElementById("selectCamera").options.add(option); 
-        }
-        
-        return deviceId;
-    }
 
-    reader.addEventListener('pause', updateButtons);
-    reader.addEventListener('play', updateButtons);
-    reader.addEventListener('scanStop', updateButtons);
-    reader.addEventListener('scanStart', updateButtons);
-    reader.addEventListener('result', ({ data }) => {
-        console.info(data);
-        document.querySelector('.barcode').textContent = data.text;
-    });
+            function updateTimers() {
+                const measuredTime = new Date(null);
+                measuredTime.setSeconds(secondsElapsed);
+                let MHSTime = measuredTime.toISOString().substr(11, 8);
+                apparentTimer.textContent = `Apparent Time Elapsed: ${MHSTime}`;
 
-    async function updateButtons() {
-        const { playing, scanning } = reader;
-        playButton.textContent = playing ? `reader.pause()` : `reader.play()`;
-        scanButton.textContent = scanning ? `reader.stopScanning(${forceActions})` : `reader.startScanning(${forceActions, trackIndex, cameraId})`;
-        forceButton.textContent = forceActions ? 'Don\'t Force Actions' : 'Force Actions';
+                const formattedDiff = new Date();
+                formattedDiff.setTime((Date.now() - startTime));
+                MHSTime = formattedDiff.toISOString().substr(11, 8);
+                actualTimer.textContent = `Actual Time Elapsed: ${MHSTime}`;
+            }
 
-        switch (latestQRCode) {
-            case undefined:
-                getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId})`;
-                break;
-            case null:
-                getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId}) - pending`;
-                break;
-            default:
-                getQRButton.textContent = `reader.getQRCode(${forceActions, trackIndex, cameraId}) - ${latestQRCode}`;
-                break;
-        }
-
-    }
-
-    function updateTimers() {
-        const measuredTime = new Date(null);
-        measuredTime.setSeconds(secondsElapsed);
-        let MHSTime = measuredTime.toISOString().substr(11, 8);
-        apparentTimer.textContent = `Apparent Time Elapsed: ${MHSTime}`;
-
-        const formattedDiff = new Date();
-        formattedDiff.setTime((Date.now() - startTime));
-        MHSTime = formattedDiff.toISOString().substr(11, 8);
-        actualTimer.textContent = `Actual Time Elapsed: ${MHSTime}`;
-    }
-
-    async function toggleTest() {
-        if (reader.scanning) {
-            reader.pause();
-            stateHeader.textContent = 'Not Streaming';
-        } else {
-            reader.startScanning(true, trackIndex, cameraId);
-            stateHeader.textContent = 'Streaming';
-        }
-    }
-  }
-  init(); 
-  </script>
+            async function toggleTest() {
+                if (reader.scanning) {
+                    reader.pause();
+                    stateHeader.textContent = 'Not Streaming';
+                } else {
+                    reader.startScanning(true, trackIndex, cameraId);
+                    stateHeader.textContent = 'Streaming';
+                }
+            }
+        };
+        init(); 
+    </script>
 </body>
 
 </html>
